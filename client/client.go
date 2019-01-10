@@ -105,6 +105,9 @@ func (c *DefaultClient) Request(call interface{}) (*http.Response, error) {
 		return nil, err
 	}
 
+	// It is the caller's responsibility to close Body.
+	defer resp.Body.Close()
+
 	if resp.StatusCode >= 400 {
 		if resp.StatusCode == 401 {
 			return resp, errors.New("Unauthorized")
